@@ -1,0 +1,6 @@
+Read pages 35-70 from \Kernel Methods in Computational Biology" written
+by Tsuda and Vert.
+
+Read "The Elements of Statistical Learning: Data Mining, Inference, and
+Prediction", Ch.4 Linear Discriminant Analysis pgs. 84 - 92. Written By
+Hastie, Tibshirani, Friedman.
