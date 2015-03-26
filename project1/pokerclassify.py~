@@ -185,6 +185,33 @@ def test_lda(filename, wk, bk, wl, bl, k, l):
 	accuracy = np.sum(y_test == np.concatenate((yk,yl)))/float(N)
 	return accuracy
 	
+def sklearn_lda_train(filename, testfilename, k, l):
+	Z = readdata(filename)
+	X = Z[:,:-1]
+	y = Z[:,-1]
+	index = (y==k) + (y==l)
+	
+	X = X[index, :]
+	y = y[index]
+	
+	clf = LDA()
+	clf.fit(X, y)
+	
+	#test lda
+	Z = readdata(testfilename)
+	X = Z[:,:-1]
+	y = Z[:,-1]
+	index = (y==k) + (y==l)
+	
+	X = X[index,:]
+	y = y[index]
+	
+	N = len(y)
+	
+	ytest = clf.predict(X)
+	accuracy = np.sum(ytest == y)/float(N)
+	return accuracy
+	
 	
 def svmfit_poker(filename):
 	"""
@@ -246,7 +273,9 @@ def svmfit_poker(filename):
 	
 	print(coeff)
 	
-	
+
+
+
 def main():
 
 #	filename = 'poker-hand-training-true.data'
@@ -260,8 +289,10 @@ def main():
 	k = 1
 	l = 3
 	wk, bk, wl, bl = lda(filename, k, l)
-	test_lda(test_filename, wk, bk, wl, bl, k, l)
-
+	a = test_lda(test_filename, wk, bk, wl, bl, k, l)
+	print(a)
 	
+	a2 = sklearn_lda_train(filename, test_filename, k, l)
+	print(a2)
 if __name__ == "__main__":
 	main()
