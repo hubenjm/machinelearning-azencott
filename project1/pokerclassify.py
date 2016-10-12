@@ -2,6 +2,7 @@ import numpy as np
 from sklearn import svm
 from sklearn.lda import LDA
 import csv
+import progressbar
 
 """
 Taken from http://archive.ics.uci.edu/ml/datasets/Poker+Hand
@@ -276,27 +277,49 @@ def sklearn_test(testfilename, clf, classes):
 
 
 def bruteforce_classifier_test():
+	testfilename = 'poker-hand-testing.data'
 	from pokerhandid import idhand, besthand
 	Z = readdata(testfilename)
 	X = Z[:,:-1]
 	y = Z[:,-1]
 	N = X.shape[0]
+	print N
 	
 	accuracy = 0
-	for j in range(N):
+	for j in xrange(N):
 		accuracy += (besthand(idhand(X[j,:])) == y[j])
+		progressbar.printProgress(j+1, N, prefix = "pokerclassify.bruteforce_classifier_test: iteration {}".format(j+1), barLength = 40)
 	
 	accuracy = accuracy*1./float(N)
 	return accuracy
 	
+
+#def keras_nn_train():
+#	from keras.models import Sequential
+#	from keras.layers import Dense, Dropout, Activation, Flatten
+#	from keras.layers import Convolution2D, MaxPooling2D
+#	from keras.utils import np_utils
+#	from keras import backend as K
+#	filename = 'poker-hand-training_true.data'
+#	Z = readdata(filename)
+#	X_train = Z[:,:-1]
+#	y_train = Z[:,-1]
+#	N = X.shape[0]
+#	print N
+
+#	model = Sequential()
+#	model.add(
+	
+
 def main():
 
 	filename = 'poker-hand-training-true.data'
 	testfilename = 'poker-hand-testing.data'
 
- 	classes = [1,2,3,7]
+ 	classes = range(0,10)
+	classes = [3,9]
  	k = 3
- 	l = 7
+ 	l = 9
  	
 	wk, bk, wl, bl = lda(filename, k, l)
 	a = lda_test(testfilename, wk, bk, wl, bl, k, l)
@@ -310,3 +333,4 @@ def main():
 	
 if __name__ == "__main__":
 	main()
+	#print bruteforce_classifier_test()
