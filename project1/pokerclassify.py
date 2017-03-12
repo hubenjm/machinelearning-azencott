@@ -286,9 +286,9 @@ def bruteforce_classifier_test():
 	print N
 	
 	accuracy = 0
-	for j in xrange(N):
+	for j in tqdm(xrange(N)):
 		accuracy += (besthand(idhand(X[j,:])) == y[j])
-		progressbar.printProgress(j+1, N, prefix = "pokerclassify.bruteforce_classifier_test: iteration {}".format(j+1), barLength = 40)
+		
 	
 	accuracy = accuracy*1./float(N)
 	return accuracy
